@@ -28,17 +28,10 @@
               </div>
             </div>
           </div>
-          anwsers: {{anwsers|json}}
-          <br />
-          target.conversations: {{target.conversations|json}}
-          <!-- <div class="pull-right" style="width: 80%;" ng-repeat="question in target.questions">
-            <span class="alert alert-info pull-right" ng-bind="question"></span>
-          </div> -->
-          <!-- <div class="well well-lg" ng-repeat="question in target.questions">
-            <div ng-bind="question">
-            </div>
-          </div> -->
-        <nav class="navbar navbar-default navbar-fixed-top" style="height: 60px; padding: 5px;">
+          <!-- anwsers: {{anwsers|json}} -->
+          <!-- <br /> -->
+          <!-- target.conversations: {{target.conversations|json}} -->
+          <nav class="navbar navbar-default navbar-fixed-top" style="height: 60px; padding: 5px;">
           <div class="container-fluid">
             <img alt="{{target.name}}" ng-src="./image/{{target.picture}}" width=50>
 
@@ -51,28 +44,17 @@
               </ul>
             </div>
           </div>
-                  <!-- <button class="btn btn-lg btn-default text-right"><span class="glyphicon glyphicon-align-justify"></span></button> -->
         </nav>
         <nav class="navbar navbar-default navbar-fixed-bottom" style="height: 60px; padding: 5px;">
           <div class="container-fluid">
             <div class="input-group input-group-lg">
-              <!-- <div class="input-group-btn dropup">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">ゆうすけさん</a></li>
-                  <li><a href="#">しょうへいさん</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Help</a></li>
-                </ul>
-              </div> -->
               <input type="text" class="form-control" placeholder="インタビューしよう" ng-model="question">
               <span class="input-group-btn">
                 <button class="btn btn-default" type="button" ng-click="sendQuestion()"><span class="glyphicon glyphicon-share-alt"></span></button>
               </span>
             </div>
-          </div><!-- /.container-fluid -->
+          </div>
         </nav>
-
       </div>
     </div>
   </body>
