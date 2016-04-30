@@ -1,40 +1,63 @@
-var mainCtrl = function($scope, $filter, $timeout){
-  $scope.questions = [
+angular.module('interview', [])
+  .controller('MainController', function($scope, $filter, $timeout, $q) {
 
-  ];
-  $scope.staffs = [
-    {name: 'naka', picture: 'naka.png'},
-    {name: 'hiki', picture: 'hiki.png'}
-  ];
-  $scope.target = {
-    name: 'naka',
-    picture: 'naka.png',
-    conversations: []
-  };
+    var vm = this;
+    vm.changeStaff = changeStaff;
+    vm.sendQuestion = sendQuestion;
+    vm.sendQuestionWithEnter = sendQuestionWithEnter;
+    active();
 
-  $scope.changeStaff = function(staff) {
-    staff.conversations = [];
-    $scope.target = staff;
-    $scope.anwsers = {};
-  };
+    function active() {
+      vm.staffs = [
+        {name: 'naka', picture: 'naka.png'},
+        {name: 'hiki', picture: 'hiki.png'}
+      ];
+      vm.target = {
+        name: 'naka',
+        picture: 'naka.png',
+        conversations: []
+      };
+      vm.anwsers = [];
+      vm.target.conversations = [];
+      vm.scrollParts = document.getElementById("interview");
+    }
 
-  $scope.anwsers = [];
-  $scope.target.conversations = [];
-  $scope.sendQuestion = function() {
-    if ($scope.question) {
-      $scope.target.conversations.push({question: $scope.question, anwsers: ['Wow!']});
-      var index = $scope.target.conversations.length - 1;
-      var lastConversation = $scope.target.conversations[index];
-      var anwsers = lastConversation.anwsers;
-      $scope.anwsers[index] = [];
-        angular.forEach(anwsers, function (anwser, i) {
-          $timeout(function() {
-            $scope.anwsers[index].push(anwser);
-            $('html, body').animate({scrollTop: window.innerHeight}, 650, 'swing');
-          }, 600, true);
+    function changeStaff(staff) {
+      staff.conversations = [];
+      vm.target = staff;
+      vm.anwsers = {};
+    }
+
+    function sendQuestion() {
+      if (!vm.question) return;
+      vm.pending = true;
+      pushToConversation(['Q', vm.question ]);
+      var anwsers = ['Wow!', 'bbb'];
+      scrollWithLoop(anwsers);
+      vm.question = null;
+    }
+
+    function scrollWithLoop(anwsers){
+      var promise = $q.all([]);
+      angular.forEach(anwsers, function (anwser) {
+        promise = promise.then(function(){
+          return $timeout(function() {
+            pushToConversation(['A', anwser]);
+          }, 1000);
         });
-      }
-    $scope.question = null;
-  };
+      });
+      promise.finally(function () {
+        vm.pending = false;
+      });
+    }
 
-};
+    function pushToConversation(array) {
+      vm.target.conversations.push(array);
+      $("body").animate({scrollTop: vm.scrollParts.scrollHeight - 70}, 500, 'swing');
+    }
+
+    function sendQuestionWithEnter($event) {
+      if ($event.keyCode === 13) sendQuestion();
+    }
+
+  });
